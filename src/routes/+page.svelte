@@ -1,63 +1,148 @@
 <script lang="ts">
 	import { onMount } from "svelte";
+	import Question from "$lib/components/Question.svelte";
 
-	let input: string = "";
+	let loading: boolean = true;
 
-	const onSubmit = async () => {
-		// const test = await fetch("/api/generate", {
-    //   headers: {
-    //     "Content-Type": "application/json"
-		// 	},
-    //   method: "POST",
-		// 	body: JSON.stringify(input)
-		// });
-
-    input = "";
-
-    console.log('input: ', input);
+	const mockData = {
+		questions: [
+			{
+				question: "Кой български владетел управляваше през 7-ми век?",
+				answers: [
+					{
+						id: "q1a",
+						answer: "Хан Крум"
+					},
+					{
+						id: "q1b",
+						answer: "Хан Тервел"
+					},
+					{
+						id: "q1c",
+						answer: "Хан Аспарух"
+					},
+					{
+						id: "q1d",
+						answer: "Хан Кубрат"
+					}
+				],
+				correctAnswer: "q1c"
+			},
+			{
+				question: "Коя българска княгиня управляваше в Странджа планина през 13 век?",
+				answers: [
+					{
+						id: "q2a",
+						answer: "Княгиня Тамара"
+					},
+					{
+						id: "q2b",
+						answer: "Княгиня Косара"
+					},
+					{
+						id: "q2c",
+						answer: "Княгиня Витиня"
+					},
+					{
+						id: "q2d",
+						answer: "Княгиня Милтиада"
+					}
+				],
+				correctAnswer: "q2b"
+			},
+			{
+				question: "Кой български цар стана известен с прозвището 'Освободител'?",
+				answers: [
+					{
+						id: "q3a",
+						answer: "Цар Симеон Велики"
+					},
+					{
+						id: "q3b",
+						answer: "Цар Иван Асен II"
+					},
+					{
+						id: "q3c",
+						answer: "Цар Борис I"
+					},
+					{
+						id: "q3d",
+						answer: "Цар Освободител"
+					}
+				],
+				correctAnswer: "q3d"
+			},
+			{
+				question: "Коя битка е важната победа за България през 1912 година?",
+				answers: [
+					{
+						id: "q4a",
+						answer: "Битката при Кресна"
+					},
+					{
+						id: "q4b",
+						answer: "Битката при Марица"
+					},
+					{
+						id: "q4c",
+						answer: "Битката при Лозенград"
+					},
+					{
+						id: "q4d",
+						answer: "Битката при Скопие"
+					}
+				],
+				correctAnswer: "q4a"
+			},
+			{
+				question: "Кога е обявена България за самостоятелна държава?",
+				answers: [
+					{
+						id: "q5a",
+						answer: "3 март 1878 г."
+					},
+					{
+						id: "q5b",
+						answer: "22 септември 1908 г."
+					},
+					{
+						id: "q5c",
+						answer: "5 октомври 1908 г."
+					},
+					{
+						id: "q5d",
+						answer: "9 септември 1944 г."
+					}
+				],
+				correctAnswer: "q5a"
+			}
+		]
 	};
 
-  onMount(async () => {
-		const test = await fetch("/api/generate", {
-      headers: {
-        "Content-Type": "application/json"
-			},
-		});
+	onMount(async () => {
+		// const res = await fetch("/api/generate", {
+		// 	headers: {
+		// 		"Content-Type": "application/json"
+		// 	}
+		// });
 
-    input = "";
-    const asd = await test.json()
-    console.log('asd: ', asd);
+		// const data = await res.json();
+
+		// loading = false;
+
+		setTimeout(() => {
+			loading = false;
+		}, 2000);
+		// console.log("data>> ", JSON.parse(res.choices[0].message.content));
 	});
 </script>
 
-<section class="p-5">
-	<select class="select select-bordered w-full max-w-xs">
-		<option disabled selected>Who shot first?</option>
-		<option>Han Solo</option>
-		<option>Obi Wan</option>
-	</select>
-
-	<hr class="my-10" />
-
-	<p>Who is this person?</p>
-
-	<label class="w-fit label cursor-pointer">
-		<input type="radio" name="radio-10" class="radio mr-4 checked:bg-red-500" />
-		<span class="label-text">Red pill</span>
-	</label>
-
-	<label class="w-fit label cursor-pointer">
-		<input type="radio" name="radio-10" class="radio mr-4 checked:bg-blue-500" />
-		<span class="label-text">Blue pill</span>
-	</label>
-
-	<hr class="my-10" />
-
-	<input
-		type="text"
-		placeholder="Type here"
-		class="input input-bordered w-full max-w-xs"
-		bind:value={input}
-	/>
-	<button class="btn btn-primary ml-3" on:click={onSubmit}>Primary</button>
+<section class="p-5 flex items-start flex-col">
+	{#if loading}
+		<span class="block mx-auto loading loading-infinity w-40" />
+	{:else}
+		{#each mockData.questions as question}
+			<Question {question} />
+		{/each}
+	{/if}
 </section>

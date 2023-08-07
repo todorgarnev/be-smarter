@@ -67,7 +67,7 @@ export const GET: RequestHandler = async () => {
 		}
 
 		const input =
-			"Give me five questions about Bulgarian history. Each question should have four answers. Give me also the correct answer. The returned data should be a json with the following structure: array of property 'question' with the question, property 'answers' which should be an array of objects, each object should contain property 'id' which should be unique and property 'answer' with an answer, and property 'correctAnswer' which should contain the correct answer's id from the previous property.";
+			"Give me five questions about Bulgarian history. Each question should have four answers. Give me also the correct answer. The returned data should be a json with array of objects and object's structure should be: array of property 'question' with the question, property 'answers' which should be an array of objects, each object should contain property 'id' which should be unique and property 'answer' with an answer, and property 'correctAnswer' which should contain the correct answer's id from the previous property.";
 		const requestMessage: ChatCompletionRequestMessage = {
 			role: "system",
 			content: input

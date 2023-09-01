@@ -2,11 +2,7 @@
 	import { onMount } from "svelte";
 	import Question from "$lib/components/Question.svelte";
 	import { userAnswers } from "$lib/stores/answers";
-
-	let loading: boolean = true;
-	let showAnswer: boolean = false;
-
-	$: answers = Object.values($userAnswers);
+	import { numberOfCorrectAnswers } from "$lib/utils";
 
 	const mockData = {
 		questions: [
@@ -123,6 +119,12 @@
 		]
 	};
 
+	const correctAnswers = mockData.questions.map((question) => question.correctAnswer);
+	let loading: boolean = true;
+	let showAnswer: boolean = false;
+
+	$: answers = Object.values($userAnswers);
+
 	onMount(async () => {
 		// const res = await fetch("/api/generate", {
 		// 	headers: {
@@ -141,7 +143,7 @@
 	});
 
 	const submitHandler = () => {
-		showAnswer  = true;
+		showAnswer = true;
 	};
 </script>
 
@@ -150,9 +152,19 @@
 		<span class="block mx-auto loading loading-infinity w-40" />
 	{:else}
 		{#each mockData.questions as question}
-			<Question {question} showAnswer={showAnswer} />
+			<Question {question} {showAnswer} />
 		{/each}
 
-		<button class="btn btn-secondary" on:click={submitHandler} disabled={answers.length < 5}>Submit</button>
+		<div class="flex justify-between items-center w-full">
+			<button class="btn btn-secondary" on:click={submitHandler} disabled={answers.length < 5}>Submit</button>
+
+			{#if showAnswer}
+				<p class="text-lg font-bold">
+					Верни отговори:
+					<span class="text-green-500">{numberOfCorrectAnswers(answers, correctAnswers)}</span>
+					/5
+				</p>
+			{/if}
+		</div>
 	{/if}
 </section>

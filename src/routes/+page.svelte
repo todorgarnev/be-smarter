@@ -4,7 +4,7 @@
 	import { userAnswers } from "$lib/stores/answers";
 
 	let loading: boolean = true;
-	let showAnswers: boolean = false;
+	let showAnswer: boolean = false;
 
 	$: answers = Object.values($userAnswers);
 
@@ -141,8 +141,7 @@
 	});
 
 	const submitHandler = () => {
-		showAnswers  = true;
-		console.log("$userAnswers: ", answers);
+		showAnswer  = true;
 	};
 </script>
 
@@ -151,7 +150,7 @@
 		<span class="block mx-auto loading loading-infinity w-40" />
 	{:else}
 		{#each mockData.questions as question}
-			<Question {question} showCorrectAnswer={showAnswers} />
+			<Question {question} showAnswer={showAnswer} />
 		{/each}
 
 		<button class="btn btn-secondary" on:click={submitHandler} disabled={answers.length < 5}>Submit</button>

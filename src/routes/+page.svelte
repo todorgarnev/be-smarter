@@ -1,8 +1,12 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import Question from "$lib/components/Question.svelte";
+	import { userAnswers } from "$lib/stores/answers";
 
 	let loading: boolean = true;
+	let showAnswers: boolean = false;
+
+	$: answers = Object.values($userAnswers);
 
 	const mockData = {
 		questions: [
@@ -132,9 +136,14 @@
 
 		setTimeout(() => {
 			loading = false;
-		}, 2000);
+		}, 1000);
 		// console.log("data>> ", JSON.parse(res.choices[0].message.content));
 	});
+
+	const submitHandler = () => {
+		showAnswers  = true;
+		console.log("$userAnswers: ", answers);
+	};
 </script>
 
 <section class="p-5 flex items-start flex-col">
@@ -142,7 +151,9 @@
 		<span class="block mx-auto loading loading-infinity w-40" />
 	{:else}
 		{#each mockData.questions as question}
-			<Question {question} />
+			<Question {question} showCorrectAnswer={showAnswers} />
 		{/each}
+
+		<button class="btn btn-secondary" on:click={submitHandler} disabled={answers.length < 5}>Submit</button>
 	{/if}
 </section>

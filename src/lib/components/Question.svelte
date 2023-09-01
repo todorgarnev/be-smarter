@@ -10,10 +10,12 @@
 	let userAnswer: string = "";
 
 	const onChangeHandler = (answerId: string) => {
-		const questionNumber: string = answerId.slice(0, 2);
+		if (!showAnswer) {
+			const questionNumber: string = answerId.slice(0, 2);
 
-		userAnswer = answerId;
-		$userAnswers[questionNumber] = answerId;
+			userAnswer = answerId;
+			$userAnswers[questionNumber] = answerId;
+		}
 	};
 </script>
 
@@ -27,6 +29,7 @@
 				name={questionId}
 				class="radio radio-primary checked:bg-blue-500"
 				on:change={() => onChangeHandler(answer.id)}
+				disabled={showAnswer}
 			/>
 
 			<span
